@@ -1,0 +1,82 @@
+---
+// AccordionCard.astro - Expandable capability section (for supplementary capabilities)
+export interface Props {
+  category: string;
+  items: string[];
+  defaultOpen?: boolean;
+}
+
+const { category, items, defaultOpen = false } = Astro.props;
+const id = category.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+---
+
+<details class="accordion" open={defaultOpen}>
+  <summary class="accordion-header" id={`accordion-${id}`}>
+    {category}
+    <span class="accordion-arrow">▾</span>
+  </summary>
+  <div class="accordion-body">
+    <ul>
+      {items.map(item => <li>{item}</li>)}
+    </ul>
+  </div>
+</details>
+
+<style>
+  .accordion {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+  }
+
+  .accordion-header {
+    padding: 0.875rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    list-style: none;
+    transition: background 0.2s;
+  }
+  .accordion-header::-webkit-details-marker { display: none; }
+  .accordion-header:hover {
+    background: var(--color-accent-light);
+  }
+
+  .accordion-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.2s;
+    color: var(--color-text-muted);
+  }
+  details[open] .accordion-arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    padding: 0 1.25rem 1rem;
+  }
+  .accordion-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  .accordion-body li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .accordion-body li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-size: 0.75rem;
+  }
+</style>

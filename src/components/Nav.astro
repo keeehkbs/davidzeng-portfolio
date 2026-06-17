@@ -1,0 +1,160 @@
+---
+// Nav.astro - Sticky navigation bar
+const currentPath = Astro.url?.pathname || '/';
+
+const navItems = [
+  { href: '/', label: '首页' },
+  { href: '/experience', label: '工作经历' },
+  { href: '/portfolio', label: '个人作品' },
+  { href: '/gallery', label: '外联影像' },
+  { href: '/reviews', label: '评价联系' },
+];
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-name">David</span>
+      <span class="nav-brand-sub">Zeng</span>
+    </a>
+
+    <!-- Mobile menu toggle -->
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" />
+    <label for="nav-toggle" class="nav-toggle-label">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <div class="nav-links">
+      {navItems.map(item => (
+        <a
+          href={item.href}
+          class={currentPath === item.href ? 'nav-link active' : 'nav-link'}
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border);
+    height: var(--nav-height);
+  }
+
+  .nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .nav-brand-name {
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+  .nav-brand-sub {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.375rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-link:hover {
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+  }
+  .nav-link.active {
+    color: var(--color-accent);
+    background: var(--color-accent-light);
+    font-weight: 600;
+  }
+
+  /* Mobile hamburger */
+  .nav-toggle { display: none; }
+  .nav-toggle-label {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 10px 4px;
+    z-index: 101;
+  }
+  .nav-toggle-label span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-text);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  /* Hamburger animation when open */
+  .nav-toggle:checked ~ .nav-toggle-label span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  .nav-toggle:checked ~ .nav-toggle-label span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle:checked ~ .nav-toggle-label span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  @media (max-width: 768px) {
+    .nav { height: auto; min-height: var(--nav-height); }
+    .nav-inner { padding: 0.5rem 1rem; flex-wrap: wrap; }
+    .nav-toggle-label { display: flex; }
+    .nav-links {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      padding: 0.5rem 0;
+      animation: navSlideIn 0.2s ease;
+    }
+    .nav-toggle:checked ~ .nav-links {
+      display: flex;
+    }
+    .nav-link {
+      padding: 0.75rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.9375rem;
+    }
+  }
+
+  @keyframes navSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

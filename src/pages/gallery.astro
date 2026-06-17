@@ -1,0 +1,32 @@
+---
+// gallery.astro - Gallery page with 211 images in masonry waterfall
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ImageCard from '../components/ImageCard.astro';
+import '../styles/masonry.css';
+import { getAllGalleryImages } from '../data/gallery';
+
+const images = getAllGalleryImages();
+---
+
+<BaseLayout title="外联影像" description="历年来外联走访、政企洽谈等活动影像记录">
+  <div class="page-header">
+    <div class="container">
+      <h1>📷 外联影像</h1>
+      <p>历年来外联走访、政企洽谈、商务考察等活动影像记录 — 共 {images.length} 张</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="masonry-grid">
+        {images.map((img, i) => (
+          <ImageCard
+            src={img.src}
+            alt={`外联走访影像 ${img.index}`}
+            caption={`#${img.index}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

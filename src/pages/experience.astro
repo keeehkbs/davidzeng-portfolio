@@ -1,0 +1,82 @@
+---
+// experience.astro - Work Experience page
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import AccordionCard from '../components/AccordionCard.astro';
+import { workExperiences, otherProjects, supplementaryCapabilities } from '../data/experience';
+---
+
+<BaseLayout title="工作经历" description="David Zeng 24年工作经历">
+  <div class="page-header">
+    <div class="container">
+      <h1>💼 工作经历</h1>
+      <p>24年外资企业及商协会工作经验</p>
+    </div>
+  </div>
+
+  <!-- 工作经历时间线 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">📋 职业历程</h2>
+      <Timeline jobs={workExperiences} />
+    </div>
+  </section>
+
+  <!-- 其他项目 -->
+  <section class="section" style="background: var(--color-surface);">
+    <div class="container">
+      <h2 class="section-title">📌 其他项目经历</h2>
+      <div class="card">
+        <ul class="project-list">
+          {otherProjects.map(p => <li>{p}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作能力补充 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">🔧 工作能力补充</h2>
+      <div class="capabilities-grid">
+        {supplementaryCapabilities.map(c => (
+          <AccordionCard category={c.category} items={c.items} />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .project-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  .project-list li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-size: 0.9375rem;
+  }
+  .project-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    top: 0.125rem;
+  }
+
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .capabilities-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

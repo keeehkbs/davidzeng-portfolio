@@ -1,0 +1,10 @@
+---
+// SkillBadge.astro - Small tag/badge for skill display
+export interface Props {
+  skill: string;
+}
+
+const { skill } = Astro.props;
+---
+
+<span class="badge">{skill}</span>

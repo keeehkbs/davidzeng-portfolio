@@ -1,0 +1,17 @@
+---
+// MasonryGrid.astro - CSS columns masonry container
+import ImageCard from './ImageCard.astro';
+import '../styles/masonry.css';
+
+export interface Props {
+  images: Array<{ src: string; alt?: string; caption?: string }>;
+}
+
+const { images } = Astro.props;
+---
+
+<div class="masonry-grid">
+  {images.map(img => (
+    <ImageCard src={img.src} alt={img.alt || ''} caption={img.caption} />
+  ))}
+</div>

@@ -1,0 +1,105 @@
+---
+// index.astro - Home/About page
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import AdvantageCard from '../components/AdvantageCard.astro';
+import SkillBadge from '../components/SkillBadge.astro';
+import { personalInfo, education, advantages, skills } from '../data/home';
+---
+
+<BaseLayout title="首页" description="David Zeng 个人成就 - 超20年外企工作经验">
+  <HeroSection
+    name={personalInfo.name}
+    nameEn={personalInfo.nameEn}
+    tagline="超过20年外企工作经验 / 丰富的外联经历及广泛人脉 / 资深的商协会秘书 / 出色的办公技能"
+    photo={personalInfo.photo}
+    stats={[
+      { label: '工作经验', value: personalInfo.experience },
+      { label: '商协会运作', value: '20年' },
+      { label: '语言', value: '粤/普/英' }
+    ]}
+  />
+
+  <!-- 适配优势 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">💡 适配优势</h2>
+      <div class="advantages-grid">
+        {advantages.map(a => (
+          <AdvantageCard icon={a.icon} title={a.title} description={a.description} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 教育背景 -->
+  <section class="section" style="background: var(--color-surface);">
+    <div class="container">
+      <h2 class="section-title">🎓 教育背景</h2>
+      <div class="card education-card">
+        <div class="education-school">{education.school}</div>
+        <div class="education-info">
+          <span>{education.degree}</span>
+          <span class="education-divider">·</span>
+          <span>{education.major}</span>
+          <span class="education-divider">·</span>
+          <span>{education.period}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作技能 -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">🛠️ 工作技能</h2>
+      <div class="skills-cloud">
+        {skills.map(s => <SkillBadge skill={s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+
+  .education-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .education-school {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .education-info {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+  }
+  .education-divider {
+    color: var(--color-border);
+    margin: 0 0.375rem;
+  }
+
+  .skills-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .advantages-grid {
+      grid-template-columns: 1fr;
+    }
+    .skills-cloud {
+      gap: 0.375rem;
+    }
+    .education-school {
+      font-size: 1.125rem;
+    }
+  }
+</style>
