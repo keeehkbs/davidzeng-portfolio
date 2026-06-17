@@ -166,6 +166,11 @@ li { margin-bottom: 0.25rem; }
   .page-header p { font-size: 0.9375rem; }
   .section-title { font-size: 1.375rem; margin-bottom: 1rem; }
   .card { padding: 1rem; }
+
+  /* Space for fixed bottom nav on mobile */
+  main {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 /* Small phones */

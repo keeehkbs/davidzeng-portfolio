@@ -1,0 +1,22 @@
+---
+// ImageCard.astro - Individual image in masonry grid
+export interface Props {
+  src: string;
+  alt?: string;
+  caption?: string;
+}
+
+const { src, alt = '', caption } = Astro.props;
+---
+
+<figure class="masonry-item">
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    width="600"
+    height="400"
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

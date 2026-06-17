@@ -1,0 +1,53 @@
+---
+// AdvantageCard.astro - Icon + title + description card
+export interface Props {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const { icon, title, description } = Astro.props;
+---
+
+<div class="advantage-card card">
+  <div class="advantage-icon">{icon}</div>
+  <div class="advantage-body">
+    <h3 class="advantage-title">{title}</h3>
+    <p class="advantage-desc">{description}</p>
+  </div>
+</div>
+
+<style>
+  .advantage-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    align-items: flex-start;
+  }
+  .advantage-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-light);
+    border-radius: 0.75rem;
+  }
+  .advantage-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .advantage-title {
+    font-size: 1rem;
+    margin-bottom: 0.375rem;
+    color: var(--color-text);
+  }
+  .advantage-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+    line-height: 1.6;
+  }
+</style>

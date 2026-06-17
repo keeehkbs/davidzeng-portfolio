@@ -1,20 +1,16 @@
 ---
-// BaseLayout.astro - Root HTML shell with nav, footer, page nav and mobile bottom bar
+// BaseLayout.astro - Root HTML shell with nav and footer
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import PageNav from '../components/PageNav.astro';
-import BottomNav from '../components/BottomNav.astro';
 import '../styles/global.css';
 
 export interface Props {
   title: string;
   description?: string;
-  currentPath?: string;
 }
 
-const { title, description, currentPath } = Astro.props;
+const { title, description } = Astro.props;
 const fullTitle = `${title} | David Zeng`;
-const pagePath = currentPath || Astro.url?.pathname || '/';
 ---
 
 <!doctype html>
@@ -42,9 +38,7 @@ const pagePath = currentPath || Astro.url?.pathname || '/';
   <Nav />
   <main>
     <slot />
-    <PageNav currentPath={pagePath} />
   </main>
   <Footer />
-  <BottomNav />
 </body>
 </html>
