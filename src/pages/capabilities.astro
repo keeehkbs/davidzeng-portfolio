@@ -1,0 +1,94 @@
+---
+// capabilities.astro - Work capabilities page (from DOCX)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CapabilitySection from '../components/CapabilitySection.astro';
+import { supplementaryCapabilities } from '../data/experience';
+
+// DOCX extracted images mapped to section index
+const docxImages = Array.from({ length: 11 }, (_, i) =>
+  `/images/capabilities/image${i + 1}.webp`
+);
+
+// Map images to relevant sections (by index - can be adjusted)
+const sectionImages = [
+  [docxImages[0], docxImages[1]],               // 工程谈判
+  [docxImages[2]],                                // 工程比价
+  [docxImages[3], docxImages[4], docxImages[5]], // 招投标
+  [docxImages[6], docxImages[7]],                // 政府项目申报
+  [],                                              // 党建工作
+  [docxImages[8], docxImages[9], docxImages[10]],// 证照办理
+  [],                                              // 商业情报
+];
+---
+
+<BaseLayout title="工作能力" description="David Zeng 工作能力补充——工程管理、招投标、证照办理等">
+  <div class="page-header">
+    <div class="container">
+      <h1>🔧 工作能力</h1>
+      <p>涵盖工程管理、招投标、政府项目申报、党建工作、证照办理等领域实操经验</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      {supplementaryCapabilities.map((cap, i) => (
+        <CapabilitySection
+          category={cap.category}
+          items={cap.items}
+          images={sectionImages[i] || []}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Additional images gallery -->
+  <section class="section" style="background: var(--color-surface);">
+    <div class="container">
+      <h2 class="section-title">📎 全部附件图片</h2>
+      <div class="all-images">
+        {docxImages.map((img, i) => (
+          <figure class="all-image-item">
+            <img
+              src={img}
+              alt={`工作能力附件 ${i + 1}`}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>附件 {i + 1}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .all-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .all-image-item {
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .all-image-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .all-image-item figcaption {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .all-images {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

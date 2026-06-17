@@ -2,8 +2,7 @@
 // experience.astro - Work Experience page
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
-import AccordionCard from '../components/AccordionCard.astro';
-import { workExperiences, otherProjects, supplementaryCapabilities } from '../data/experience';
+import { workExperiences, otherProjects } from '../data/experience';
 ---
 
 <BaseLayout title="工作经历" description="David Zeng 24年工作经历">
@@ -34,17 +33,6 @@ import { workExperiences, otherProjects, supplementaryCapabilities } from '../da
     </div>
   </section>
 
-  <!-- 工作能力补充 -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">🔧 工作能力补充</h2>
-      <div class="capabilities-grid">
-        {supplementaryCapabilities.map(c => (
-          <AccordionCard category={c.category} items={c.items} />
-        ))}
-      </div>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -66,17 +54,5 @@ import { workExperiences, otherProjects, supplementaryCapabilities } from '../da
     color: var(--color-accent);
     font-size: 0.75rem;
     top: 0.125rem;
-  }
-
-  .capabilities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 0.5rem;
-  }
-
-  @media (max-width: 640px) {
-    .capabilities-grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>
