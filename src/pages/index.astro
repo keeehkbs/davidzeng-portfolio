@@ -128,11 +128,12 @@ import { reviews } from '../data/reviews';
     align-items: flex-start;
   }
   .review-image {
-    width: 120px;
+    width: 200px;
     height: auto;
     border-radius: var(--radius);
     border: 1px solid var(--color-border);
     flex-shrink: 0;
+    image-orientation: from-image;
   }
   .review-body {
     flex: 1;
@@ -161,7 +162,8 @@ import { reviews } from '../data/reviews';
     }
     .review-image {
       width: 100%;
-      max-width: 300px;
+      max-width: 400px;
+      image-orientation: from-image;
     }
   }
 </style>
