@@ -167,9 +167,14 @@ li { margin-bottom: 0.25rem; }
   .section-title { font-size: 1.375rem; margin-bottom: 1rem; }
   .card { padding: 1rem; }
 
+  /* Prevent pull-to-refresh from exposing gaps behind fixed bars */
+  body {
+    overscroll-behavior-y: contain;
+  }
+
   /* Space for fixed bottom nav on mobile */
   main {
-    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(4.25rem + env(safe-area-inset-bottom, 0px));
   }
 }
 

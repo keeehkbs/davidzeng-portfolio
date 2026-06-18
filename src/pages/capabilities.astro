@@ -9,8 +9,8 @@ const docxImages = Array.from({ length: 11 }, (_, i) =>
   `/images/capabilities/image${i + 1}.webp`
 );
 
-// Map images to relevant sections (by index - can be adjusted)
-const sectionImages = [
+// Map images to relevant sections (by index) — fallback when section has no custom images
+const sectionImagesFallback = [
   [docxImages[0], docxImages[1]],               // 工程谈判
   [docxImages[2]],                                // 工程比价
   [docxImages[3], docxImages[4], docxImages[5]], // 招投标
@@ -35,7 +35,7 @@ const sectionImages = [
         <CapabilitySection
           category={cap.category}
           items={cap.items}
-          images={sectionImages[i] || []}
+          images={cap.images || sectionImagesFallback[i] || []}
         />
       ))}
     </div>
@@ -57,6 +57,16 @@ const sectionImages = [
             <figcaption>附件 {i + 1}</figcaption>
           </figure>
         ))}
+        {/* 采购比价 */}
+        <figure class="all-image-item">
+          <img
+            src="/images/capabilities/procurement-comparison.webp"
+            alt="采购比价"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>采购比价</figcaption>
+        </figure>
       </div>
     </div>
   </section>

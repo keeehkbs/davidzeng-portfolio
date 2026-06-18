@@ -1,29 +1,69 @@
 ---
-// BottomNav.astro - Fixed bottom navigation bar (mobile only)
+// BottomNav.astro - Scrollable horizontal bottom navigation (mobile only)
 import { pageOrder } from '../data/site-config';
 
 const currentPath = Astro.url?.pathname || '/';
 
-// Use 5 items for bottom nav: skip one of the 6 to keep it clean
-// Show: 首页, 经历, 能力, 作品, 联系 (skip 影像 since it's less essential)
-const bottomItems = pageOrder.filter(p => p.path !== '/gallery');
+// Show all 6 pages for complete coverage
+const bottomItems = pageOrder;
 ---
 
-<nav class="bottom-nav" aria-label="底部导航">
-  {bottomItems.map(item => {
-    const isActive = currentPath === item.path;
-    return (
-      <a
-        href={item.path}
-        class={isActive ? 'bottom-nav-item active' : 'bottom-nav-item'}
-        aria-current={isActive ? 'page' : undefined}
-      >
-        <span class="bottom-nav-icon">{item.icon}</span>
-        <span class="bottom-nav-label">{item.shortLabel}</span>
-      </a>
-    );
-  })}
+<nav class="bottom-nav" aria-label="快速导航">
+  <div class="bottom-nav-scroll" id="bottomNavScroll">
+    {bottomItems.map(item => {
+      const isActive = currentPath === item.path;
+      return (
+        <a
+          href={item.path}
+          class={isActive ? 'bottom-nav-item active' : 'bottom-nav-item'}
+          aria-current={isActive ? 'page' : undefined}
+          data-path={item.path}
+        >
+          <span class="bottom-nav-icon">{item.icon}</span>
+          <span class="bottom-nav-label">{item.shortLabel}</span>
+        </a>
+      );
+    })}
+  </div>
+  <!-- Edge fade indicators -->
+  <div class="bottom-nav-fade bottom-nav-fade--left" id="bottomNavFadeLeft"></div>
+  <div class="bottom-nav-fade bottom-nav-fade--right" id="bottomNavFadeRight"></div>
 </nav>
+
+<script>
+  (function() {
+    const scrollContainer = document.getElementById('bottomNavScroll');
+    if (!scrollContainer) return;
+
+    const fadeLeft = document.getElementById('bottomNavFadeLeft');
+    const fadeRight = document.getElementById('bottomNavFadeRight');
+
+    // Auto-scroll the active tab into view on page load
+    const activeItem = scrollContainer.querySelector('[aria-current="page"]');
+    if (activeItem) {
+      const containerWidth = scrollContainer.offsetWidth;
+      const itemLeft = activeItem.offsetLeft;
+      const itemWidth = activeItem.offsetWidth;
+      const scrollTarget = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+      scrollContainer.scrollLeft = Math.max(0, scrollTarget);
+    }
+
+    // Toggle edge fade visibility based on scroll position
+    function updateFades() {
+      const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      if (fadeLeft) {
+        fadeLeft.style.opacity = scrollContainer.scrollLeft > 8 ? '1' : '0';
+      }
+      if (fadeRight) {
+        fadeRight.style.opacity = scrollContainer.scrollLeft < maxScroll - 8 ? '1' : '0';
+      }
+    }
+
+    scrollContainer.addEventListener('scroll', updateFades, { passive: true });
+    window.addEventListener('resize', updateFades, { passive: true });
+    updateFades();
+  })();
+</script>
 
 <style>
   .bottom-nav {
@@ -37,31 +77,62 @@ const bottomItems = pageOrder.filter(p => p.path !== '/gallery');
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid var(--color-border);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overscroll-behavior: contain;
+  }
+
+  .bottom-nav-scroll {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar across browsers */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .bottom-nav-scroll::-webkit-scrollbar {
     display: none;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0.375rem 0.25rem;
-    padding-bottom: calc(0.375rem + env(safe-area-inset-bottom, 0px));
   }
 
   .bottom-nav-item {
+    flex-shrink: 0;
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2px;
-    padding: 0.375rem 0.25rem;
-    min-width: 56px;
+    padding: 0.375rem 0.75rem;
+    min-width: 60px;
     text-decoration: none;
     color: var(--color-text-muted);
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
     -webkit-user-select: none;
+    position: relative;
   }
 
   .bottom-nav-item.active {
     color: var(--color-accent);
+  }
+
+  .bottom-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 3px 3px 0 0;
   }
 
   .bottom-nav-item:active {
@@ -74,16 +145,39 @@ const bottomItems = pageOrder.filter(p => p.path !== '/gallery');
   }
 
   .bottom-nav-label {
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
 
-  /* Show only on mobile / touch devices */
+  /* Edge fade gradients */
+  .bottom-nav-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 28px;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.2s;
+  }
+
+  .bottom-nav-fade--left {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.95), transparent);
+    opacity: 0;
+  }
+
+  .bottom-nav-fade--right {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0.95), transparent);
+  }
+
+  /* Show only on mobile */
   @media (max-width: 768px) {
     .bottom-nav {
-      display: flex;
+      display: block;
     }
   }
 </style>

@@ -12,7 +12,7 @@ const navItems = [
 ];
 ---
 
-<nav class="nav">
+<nav class="nav" id="topNav">
   <div class="nav-inner">
     <a href="/" class="nav-brand">
       <span class="nav-brand-name">David</span>
@@ -40,6 +40,35 @@ const navItems = [
   </div>
 </nav>
 
+<script>
+  // Hide top nav on scroll-down, show on scroll-up (mobile only)
+  (function() {
+    const nav = document.getElementById('topNav');
+    if (!nav) return;
+
+    let lastScrollY = 0;
+    let ticking = false;
+
+    function updateNav() {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        nav.style.transform = 'translateY(-100%)';
+      } else {
+        nav.style.transform = 'translateY(0)';
+      }
+      lastScrollY = currentScrollY;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateNav);
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+</script>
+
 <style>
   .nav {
     position: sticky;
@@ -50,6 +79,7 @@ const navItems = [
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border);
     height: var(--nav-height);
+    transition: transform 0.3s ease;
   }
 
   .nav-inner {

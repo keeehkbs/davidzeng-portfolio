@@ -149,7 +149,8 @@ export const supplementaryCapabilities = [
     items: [
       '装修工程合同管理',
       '工程预算'
-    ]
+    ],
+    images: ['/images/capabilities/procurement-comparison.webp']
   },
   {
     category: '招投标工作',
@@ -194,4 +195,35 @@ export const supplementaryCapabilities = [
       '各大电商平台进驻条件及流程分析'
     ]
   }
+];
+
+// VIP合照 - 与粤港工商界代表人物的合影
+export const vipPhotos = [
+  { src: '/images/vip-photos/vip-15-vip.webp', alt: '工总主席庄子雄博士', caption: '工总主席庄子雄博士' },
+  { src: '/images/vip-photos/vip-17-vip.webp', alt: '杨勋合影', caption: '杨勋先生合影' },
+  { src: '/images/vip-photos/vip-16-vip.webp', alt: '时力蓝总合照', caption: '时力蓝总合照' },
+  { src: '/images/vip-photos/vip-18-vip.webp', alt: '理文造纸李文斌董事长', caption: '理文造纸李文斌董事长' },
+  { src: '/images/vip-photos/vip-01-ben-yeung.webp', alt: 'Ben Yeung', caption: 'Ben Yeung' },
+  { src: '/images/vip-photos/vip-02-img_0261-.webp', alt: 'VIP合影 1', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-03-img_0377.webp', alt: 'VIP合影 2', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-04-img_0794.webp', alt: 'VIP合影 3', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-05-img_0832.webp', alt: 'VIP合影 4', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-06-img_1095.webp', alt: 'VIP合影 5', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-07-img_1244.webp', alt: 'VIP合影 6', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-08-img_1630.webp', alt: 'VIP合影 7', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-09-img_1765.webp', alt: 'VIP合影 8', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-10-img_1790-.webp', alt: 'VIP合影 9', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-11-img_2475.webp', alt: 'VIP合影 10', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-12-img_25211.webp', alt: 'VIP合影 11', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-13-img_2646.webp', alt: 'VIP合影 12', caption: 'VIP合影' },
+  { src: '/images/vip-photos/vip-14-img_3180.webp', alt: 'VIP合影 13', caption: 'VIP合影' },
+];
+
+// 会员服务活动影像
+export const memberServiceImages = [
+  { src: '/images/member-services/member-service-01.webp', alt: '举办招聘会', caption: '举办招聘会' },
+  { src: '/images/member-services/member-service-02.webp', alt: '会员服务 1', caption: '会员服务' },
+  { src: '/images/member-services/member-service-03.webp', alt: '会员服务 2', caption: '会员服务' },
+  { src: '/images/member-services/member-service-04.webp', alt: '会员服务 3', caption: '会员服务' },
+  { src: '/images/member-services/member-service-05.webp', alt: '会员服务 4', caption: '会员服务' },
 ];
