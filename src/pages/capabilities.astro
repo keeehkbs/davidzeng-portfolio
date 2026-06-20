@@ -1,8 +1,10 @@
 ---
-// capabilities.astro - Work capabilities page (from DOCX)
+// capabilities.astro - Combined page: Work capabilities + Personal portfolio
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CapabilitySection from '../components/CapabilitySection.astro';
+import MasonryGrid from '../components/MasonryGrid.astro';
 import { supplementaryCapabilities } from '../data/experience';
+import { portfolioCategories } from '../data/portfolio';
 
 // DOCX extracted images mapped to section index
 const docxImages = Array.from({ length: 11 }, (_, i) =>
@@ -21,16 +23,20 @@ const sectionImagesFallback = [
 ];
 ---
 
-<BaseLayout title="工作能力" description="David Zeng 工作能力补充——工程管理、招投标、证照办理等">
+<BaseLayout title="工作能力 & 个人作品" description="David Zeng 工作能力与个人作品展示">
+  <!-- Header -->
   <div class="page-header">
     <div class="container">
-      <h1>🔧 工作能力</h1>
-      <p>涵盖工程管理、招投标、政府项目申报、党建工作、证照办理等领域实操经验</p>
+      <h1>🔧 工作能力 & 个人作品</h1>
+      <p>涵盖工程管理、招投标、政府项目申报等领域实操经验，以及数据分析、应用开发、内容创作等个人作品</p>
     </div>
   </div>
 
+  <!-- ====== 工作能力 Section ====== -->
   <section class="section">
     <div class="container">
+      <h2 class="section-title">⚡ 工作能力</h2>
+      <p class="section-subtitle">涵盖工程管理、招投标、政府项目申报、党建工作、证照办理等领域实操经验</p>
       {supplementaryCapabilities.map((cap, i) => (
         <CapabilitySection
           category={cap.category}
@@ -41,10 +47,10 @@ const sectionImagesFallback = [
     </div>
   </section>
 
-  <!-- Additional images gallery -->
+  <!-- Additional capability images -->
   <section class="section" style="background: var(--color-surface);">
     <div class="container">
-      <h2 class="section-title">📎 全部附件图片</h2>
+      <h2 class="section-title">📎 工作能力附件图片</h2>
       <div class="all-images">
         {docxImages.map((img, i) => (
           <figure class="all-image-item">
@@ -57,7 +63,6 @@ const sectionImagesFallback = [
             <figcaption>附件 {i + 1}</figcaption>
           </figure>
         ))}
-        {/* 采购比价 */}
         <figure class="all-image-item">
           <img
             src="/images/capabilities/procurement-comparison.webp"
@@ -70,9 +75,46 @@ const sectionImagesFallback = [
       </div>
     </div>
   </section>
+
+  <!-- ====== 个人作品 Section ====== -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">🎨 个人作品</h2>
+      <p class="section-subtitle">涵盖数据分析、应用开发、内容创作、平台搭建等领域</p>
+    </div>
+  </section>
+
+  {portfolioCategories.map((category, i) => (
+    <section class="section" style={i % 2 === 1 ? 'background: var(--color-surface);' : ''}>
+      <div class="container">
+        <h3 class="portfolio-category-title">{category.name}</h3>
+        <p class="category-desc">{category.description}</p>
+        {category.images.length === 1 ? (
+          <div class="single-image">
+            <img
+              src={category.images[0].src}
+              alt={category.images[0].alt}
+              loading="lazy"
+              decoding="async"
+              class="single-image-img"
+            />
+            <figcaption>{category.images[0].alt}</figcaption>
+          </div>
+        ) : (
+          <MasonryGrid images={category.images} />
+        )}
+      </div>
+    </section>
+  ))}
 </BaseLayout>
 
 <style>
+  .section-subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+  }
+
   .all-images {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -96,9 +138,40 @@ const sectionImagesFallback = [
     text-align: center;
   }
 
+  .portfolio-category-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-desc {
+    color: var(--color-text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .single-image {
+    text-align: center;
+  }
+  .single-image-img {
+    max-width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    margin: 0 auto;
+  }
+  .single-image figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
   @media (max-width: 640px) {
     .all-images {
       grid-template-columns: 1fr 1fr;
+    }
+    .category-desc {
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
     }
   }
 </style>

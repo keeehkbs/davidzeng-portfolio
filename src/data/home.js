@@ -10,7 +10,6 @@ export const personalInfo = {
 };
 
 export const education = {
-  school: '岭南师范学院',
   degree: '本科',
   major: '财务会计教育',
   period: '1998 - 2002'
