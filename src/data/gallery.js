@@ -24,24 +24,11 @@ export const galleryImages = [
 
 export const galleryTotal = 211;
 
-// Rotation overrides for specific images (VIP合影 orientation fixes)
-// 90 = rotate(90deg), 180 = rotate(180deg)
-const rotationMap = {
-  1: 90,
-  7: 90,
-  8: 90,
-  11: 90,
-  12: 180,
-  13: 180,
-  16: 90,
-};
-
 export function getGalleryImage(index) {
   const padded = String(index).padStart(3, '0');
   return {
     src: `/images/gallery/wailian-${padded}.webp`,
-    index: index,
-    rotation: rotationMap[index] || 0,
+    index: index
   };
 }
 

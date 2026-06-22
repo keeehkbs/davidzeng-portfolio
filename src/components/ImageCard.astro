@@ -4,14 +4,9 @@ export interface Props {
   src: string;
   alt?: string;
   caption?: string;
-  rotation?: number;
 }
 
-const { src, alt = '', caption, rotation = 0 } = Astro.props;
-
-const style = rotation
-  ? `transform: rotate(${rotation}deg);`
-  : '';
+const { src, alt = '', caption } = Astro.props;
 ---
 
 <figure class="masonry-item">
@@ -22,7 +17,6 @@ const style = rotation
     decoding="async"
     width="600"
     height="400"
-    style={style}
   />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
